@@ -1,0 +1,49 @@
+<div class="wrapper">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="avatar"></div>
+            <mat-card-title>Keep In Mind</mat-card-title>
+            <mat-card-subtitle>Pencil is more reliable than your brain...</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="fgNew">
+                <div>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Write down a new TODO, then press enter</mat-label>
+                        <input type="text" matInput placeholder="ng conference tomorrow night" formControlName="todo"
+                            (keyup.enter)="fgNew.valid && onEnterInTxtTitle()">
+                        <mat-error>TODO cannot be empty</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+            <mat-selection-list #todosSelection [(ngModel)]="todosSelected" [ngModelOptions]="{standalone: true}">
+                <mat-list-option *ngFor="let todo of todos" [value]="todo" [ngClass]="{
+                    'completed': todo.completed,
+                     'active': !todo.completed,
+                     'hidden': categorySelected === 1 && todo.completed
+                     || categorySelected === 2 && !todo.completed
+                    }">
+                    {{todo.title}}
+                </mat-list-option>
+            </mat-selection-list>
+        </mat-card-content>
+        <mat-card-actions>
+            <form [formGroup]="fgCategory" class="inline-form">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filter by category</mat-label>
+                    <mat-select formControlName="category" (selectionChange)="onCategorySelectionChange($event.value)">
+                        <mat-option *ngFor="let categoryValue of categories" [value]="categoryValue">
+                            {{categoryValue.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button color="primary" (click)="onBtnMarkAsCompletedClicked()"
+                [disabled]="todosSelection.selectedOptions.selected.length === 0">Mark as Completed</button>
+            <button mat-button (click)="onBtnDeleteClicked()"
+                [disabled]="todosSelection.selectedOptions.selected.length === 0">Delete</button>
+        </mat-card-actions>
+        <div [ngClass]="{'hidden': isInitialized, 'overlay': true}">
+            <mat-spinner diameter="40"></mat-spinner>
+        </div>
+    </mat-card>
+</div>

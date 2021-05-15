@@ -1,0 +1,61 @@
+div.wrapper {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 64px);
+    justify-content: center;
+    align-items: center;
+
+    & div.avatar {
+        background-image: url("/favicon.png");
+        background-size: cover;
+    }
+
+    & mat-form-field.full-width {
+        width: 100%;
+        margin: 16px 0px;
+    }
+
+    & form.inline-form {
+        display: inline-block;
+        padding: 0px 10px;
+        margin-right: 40px;
+    }
+
+    & > mat-card {
+        max-height: 80%;
+
+        & > div.overlay {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            inset: 0px 0px;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.2);
+
+            &.hidden {
+                display: none;
+            }
+        }
+    }
+
+    & mat-card-content {
+        position: relative;
+
+        & > mat-selection-list {
+            max-height: 30vh;
+            overflow: auto;
+
+            & > mat-list-option {
+                &.hidden {
+                    display: none;
+                }
+
+                &.completed {
+                    text-decoration-line: line-through;
+                    color: lightgrey;
+                }
+            }
+        }
+    }
+}
